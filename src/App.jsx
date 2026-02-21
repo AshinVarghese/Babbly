@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { EventProvider, useEvents } from './store/EventContext'
+import { MemoryProvider } from './store/MemoryContext'
 import { AuthHub } from './screens/AuthHub'
 import { Login } from './screens/Login'
 import { Onboarding } from './screens/Onboarding'
@@ -7,6 +8,7 @@ import { ProfileSwitcher } from './screens/ProfileSwitcher'
 import { Today } from './screens/Today'
 import { Settings } from './screens/Settings'
 import { History } from './screens/History'
+import { Memories } from './screens/Memories'
 
 function MainRouter() {
   const { profile, isLoading } = useEvents();
@@ -34,6 +36,7 @@ function MainRouter() {
 
   if (currentScreen === 'settings') return <Settings onBack={() => setCurrentScreen('today')} />;
   if (currentScreen === 'history') return <History onBack={() => setCurrentScreen('today')} />;
+  if (currentScreen === 'memories') return <Memories onBack={() => setCurrentScreen('today')} />;
 
   return <Today onNavigate={setCurrentScreen} />;
 }
@@ -41,7 +44,9 @@ function MainRouter() {
 function App() {
   return (
     <EventProvider>
-      <MainRouter />
+      <MemoryProvider>
+        <MainRouter />
+      </MemoryProvider>
     </EventProvider>
   )
 }

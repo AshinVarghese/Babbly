@@ -7,7 +7,8 @@
 const KEYS = {
     EVENTS: 'babbly_events',
     PROFILE: 'babbly_profile',
-    SETTINGS: 'babbly_settings'
+    SETTINGS: 'babbly_settings',
+    MEMORIES: 'babbly_memories'
 };
 
 export const storageService = {
@@ -46,6 +47,35 @@ export const storageService = {
         const events = await this.getEvents();
         const filtered = events.filter(e => e.id !== id);
         await this.saveEvents(filtered);
+    },
+
+    // Memories
+    async getMemories() {
+        return JSON.parse(localStorage.getItem(KEYS.MEMORIES) || '[]');
+    },
+    async saveMemories(memoriesArray) {
+        localStorage.setItem(KEYS.MEMORIES, JSON.stringify(memoriesArray));
+    },
+    async addMemory(memory) {
+        const memories = await this.getMemories();
+        memories.unshift(memory);
+        await this.saveMemories(memories);
+        return memory;
+    },
+    async updateMemory(id, updates) {
+        const memories = await this.getMemories();
+        const index = memories.findIndex(m => m.id === id);
+        if (index !== -1) {
+            memories[index] = { ...memories[index], ...updates, updatedAt: new Date().toISOString() };
+            await this.saveMemories(memories);
+            return memories[index];
+        }
+        throw new Error('Memory not found');
+    },
+    async deleteMemory(id) {
+        const memories = await this.getMemories();
+        const filtered = memories.filter(m => m.id !== id);
+        await this.saveMemories(filtered);
     },
 
     // Raw Access (for migrations)
