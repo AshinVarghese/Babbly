@@ -291,7 +291,57 @@ export function QuickLogModal({ isOpen, onClose, defaultType }) {
                         />
                     </div>
                 );
-            // Other types like Pump, Med, Temp can follow short similar flows
+            case 'medication':
+                return (
+                    <div className="flex-col gap-2 mb-4">
+                        <h3 className="mb-2">Medication Details</h3>
+                        <label className="text-sm">Name of Medication</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. Tylenol, Motrin"
+                            className="styled-input w-full"
+                            value={details.name || ''}
+                            onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                        />
+                        <label className="text-sm mt-2">Dose/Amount</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. 2.5ml"
+                            className="styled-input w-full"
+                            value={details.dose || ''}
+                            onChange={(e) => setDetails({ ...details, dose: e.target.value })}
+                        />
+                    </div>
+                );
+            case 'temp':
+                return (
+                    <div className="flex-col gap-2 mb-4">
+                        <h3 className="mb-2">Temperature Reading</h3>
+                        <label className="text-sm">Temperature</label>
+                        <div className="flex gap-2">
+                            <input
+                                type="number"
+                                step="0.1"
+                                placeholder="e.g. 98.6"
+                                className="styled-input flex-1"
+                                value={details.value || ''}
+                                onChange={(e) => setDetails({ ...details, value: e.target.value })}
+                            />
+                            <div className="flex gap-1" style={{ width: '80px' }}>
+                                <button
+                                    className={`btn ${details.unit !== 'C' ? 'btn-primary' : 'btn-outline'} flex-1`}
+                                    style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+                                    onClick={() => setDetails({ ...details, unit: 'F' })}
+                                >F</button>
+                                <button
+                                    className={`btn ${details.unit === 'C' ? 'btn-primary' : 'btn-outline'} flex-1`}
+                                    style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+                                    onClick={() => setDetails({ ...details, unit: 'C' })}
+                                >C</button>
+                            </div>
+                        </div>
+                    </div>
+                );
             default:
                 return (
                     <div className="flex-col gap-2 mb-4">

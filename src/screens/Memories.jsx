@@ -3,6 +3,7 @@ import { useMemories } from '../store/MemoryContext';
 import { MemoryEditorSheet } from '../components/MemoryEditorSheet';
 import { shareService } from '../services/shareService';
 import { useEvents } from '../store/EventContext';
+import { EmptyState } from '../components/EmptyState';
 
 export function Memories({ onBack }) {
     const { memories } = useMemories();
@@ -32,11 +33,11 @@ export function Memories({ onBack }) {
             </div>
 
             {memories.length === 0 ? (
-                <div className="card text-center" style={{ marginTop: '2rem', padding: '3rem 1.5rem' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '1rem', animation: 'float 6s ease-in-out infinite' }}>✨</div>
-                    <h3 style={{ fontSize: '1.25rem', color: 'var(--color-primary-dark)', marginBottom: '0.5rem' }}>Your Story Begins Here</h3>
-                    <p className="text-sm">As you log daily moments, beautifully crafted memories will automatically appear here to celebrate your journey.</p>
-                </div>
+                <EmptyState
+                    emoji="✨"
+                    message="Your Story Begins Here"
+                    subMessage="As you log daily moments, beautifully crafted memories will automatically appear here to celebrate your journey."
+                />
             ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {groupedMemories.map(([month, monthMemories]) => (

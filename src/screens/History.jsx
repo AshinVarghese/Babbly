@@ -4,6 +4,7 @@ import { intelligenceEngine } from '../services/intelligenceEngine';
 import { FAB } from '../components/FAB';
 import { QuickLogModal } from '../components/QuickLogModal';
 import { IconFeed, IconDiaper, IconSleep, IconPump, IconNote, IconMedication, IconTemp } from '../components/Icons';
+import { EmptyState } from '../components/EmptyState';
 
 export function History({ onBack }) {
     const { events } = useEvents();
@@ -118,10 +119,11 @@ export function History({ onBack }) {
 
             {/* Empty State */}
             {visibleGroups.length === 0 ? (
-                <div className="card text-center" style={{ marginTop: '2rem', padding: '3rem 1.5rem' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🔍</div>
-                    <p className="text-sm">No {filter !== 'all' ? filter : ''} logs found.</p>
-                </div>
+                <EmptyState
+                    emoji="🔍"
+                    message={`No ${filter !== 'all' ? filter : ''} logs found.`}
+                    subMessage="Try adjusting your filters or checking a different day."
+                />
             ) : (
                 <>
                     {/* Analytics Glance Panel */}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useEvents } from '../store/EventContext';
 import { intelligenceEngine } from '../services/intelligenceEngine';
 import { IconFeed, IconDiaper, IconSleep, IconPump, IconNote, IconMedication, IconTemp, IconSun, IconBreast } from './Icons';
+import { EmptyState } from './EmptyState';
 
 export function Timeline({ onEditLog }) {
     const { events, addEvent } = useEvents();
@@ -78,8 +79,8 @@ export function Timeline({ onEditLog }) {
             const sideStr = metadata.side ? metadata.side.charAt(0).toUpperCase() + metadata.side.slice(1) : '';
             return `${metadata.amount || ''} ${sideStr ? '(' + sideStr + ')' : ''} ${extra.length ? ` · ${extra.join(' ')}` : ''}`;
         }
-        if (type === 'medication') return `${metadata.name} - ${metadata.dose} ${extra.join(' ')}`;
-        if (type === 'temp') return `${metadata.value} ${metadata.unit} ${extra.join(' ')}`;
+        if (type === 'medication') return `${metadata.name || 'Unnamed Med'} - ${metadata.dose || '?'} ${extra.join(' ')}`;
+        if (type === 'temp') return `${metadata.value || '?'} ${metadata.unit || 'F'} ${extra.join(' ')}`;
         if (type === 'note') return metadata.text || metadata.notes;
         return '';
     };
@@ -88,11 +89,11 @@ export function Timeline({ onEditLog }) {
 
     if (sortedLogs.length === 0) {
         return (
-            <div className="card mt-4" style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem', animation: 'float 6s ease-in-out infinite' }}>☁️</div>
-                <p className="text-sm">A quiet day so far.</p>
-                <p className="text-sm mt-2" style={{ fontWeight: 600, color: 'var(--color-primary-dark)' }}>Tap + to log an event</p>
-            </div>
+            <EmptyState
+                emoji="☁️"
+                message="A quiet day so far."
+                subMessage="Tap + to log an event"
+            />
         );
     }
 

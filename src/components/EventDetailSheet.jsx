@@ -207,6 +207,44 @@ export function EventDetailSheet({ isOpen, onClose, logId }) {
                 <textarea value={editData.text || ''} onChange={(e) => updateField('text', e.target.value)} className="styled-input" rows={3} placeholder="Add a note..."></textarea>
             );
         }
+        if (log.type === 'medication') {
+            return (
+                <div className="flex-col gap-4">
+                    <div className="flex-col gap-2">
+                        <label className="text-sm">Medication Name</label>
+                        <input type="text" className="styled-input" placeholder="e.g. Tylenol" value={editData.name || ''} onChange={(e) => updateField('name', e.target.value)} />
+                    </div>
+                    <div className="flex-col gap-2">
+                        <label className="text-sm">Dose/Amount</label>
+                        <input type="text" className="styled-input" placeholder="e.g. 2.5ml" value={editData.dose || ''} onChange={(e) => updateField('dose', e.target.value)} />
+                    </div>
+                </div>
+            );
+        }
+        if (log.type === 'temp') {
+            return (
+                <div className="flex-col gap-4">
+                    <div className="flex-col gap-2">
+                        <label className="text-sm">Temperature</label>
+                        <div className="flex gap-2">
+                            <input type="number" step="0.1" className="styled-input flex-1" placeholder="e.g. 98.6" value={editData.value || ''} onChange={(e) => updateField('value', e.target.value)} />
+                            <div className="flex gap-1" style={{ width: '80px' }}>
+                                <button
+                                    className={`btn ${editData.unit !== 'C' ? 'btn-primary' : 'btn-outline'} flex-1`}
+                                    style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+                                    onClick={() => updateField('unit', 'F')}
+                                >F</button>
+                                <button
+                                    className={`btn ${editData.unit === 'C' ? 'btn-primary' : 'btn-outline'} flex-1`}
+                                    style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+                                    onClick={() => updateField('unit', 'C')}
+                                >C</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
         return <p className="text-sm">Cannot inline-edit this event type yet.</p>;
     };
 

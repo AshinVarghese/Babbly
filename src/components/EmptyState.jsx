@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function EmptyState({ message, subMessage }) {
+export function EmptyState({ message, subMessage, emoji = '🌟' }) {
     return (
         <div className="card mt-4" style={{
             textAlign: 'center',
@@ -11,7 +11,7 @@ export function EmptyState({ message, subMessage }) {
             gap: '1rem',
             animation: 'fadeIn var(--duration-normal) var(--ease-smooth)'
         }}>
-            <div style={{ fontSize: '3rem', opacity: 0.8 }}>🌟</div>
+            <div style={{ fontSize: '3rem', opacity: 0.8, animation: 'float 6s ease-in-out infinite' }}>{emoji}</div>
             <div>
                 <p className="text-sm" style={{ fontWeight: 600 }}>{message}</p>
                 {subMessage && <p className="text-xs mt-2">{subMessage}</p>}
